@@ -1,7 +1,7 @@
 const db = require("./database/db.js");
 
 const select_cohorts_in_finsbo = db.prepare(/*sql*/ `
-  -- [1]
+  SELECT name FROM cohorts WHERE location = 'Finsbury Park';
 `);
 
 function listCohortsInFinsbo() {
@@ -9,7 +9,9 @@ function listCohortsInFinsbo() {
 }
 
 const select_students_in_finsbo = db.prepare(/*sql*/ `
-  -- [2]
+  SELECT username FROM students
+  JOIN cohorts ON students.cohort_name = cohorts.name
+  WHERE cohorts.location = 'Finsbury Park';
 `);
 
 function listStudentsInFinsbo() {
@@ -17,7 +19,9 @@ function listStudentsInFinsbo() {
 }
 
 const select_students_with_location = db.prepare(/*sql*/ `
-  -- [3]
+  SELECT students.username, cohorts.location
+  FROM students
+  JOIN cohorts ON students.cohort_name = cohorts.name;
 `);
 
 function listStudentsWithLocation() {
