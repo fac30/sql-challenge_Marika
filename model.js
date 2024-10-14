@@ -29,7 +29,12 @@ function listStudentsWithLocation() {
 }
 
 const select_students_with_projects = db.prepare(/*sql*/ `
-  -- [4]
+const select_students_with_projects = db.prepare(/*sql*/ `
+  SELECT projects.name, students.username FROM students
+  INNER JOIN students_projects ON students.username = students_projects.username
+  INNER JOIN projects ON students_projects.project_id = projects.id;
+`);
+
 `);
 
 function listStudentsWithProjects() {
@@ -37,7 +42,12 @@ function listStudentsWithProjects() {
 }
 
 const select_students_with_projects_in_finsbo = db.prepare(/*sql*/ `
-  -- [5]
+  SELECT projects.name, students.username
+FROM students
+INNER JOIN students_projects ON students.username = students_projects.username
+INNER JOIN projects ON students_projects.project_id = projects.id
+INNER JOIN cohorts ON students.cohort_name = cohorts.name
+WHERE cohorts.location = 'Finsbury Park';
 `);
 
 function listStudentsWithProjectsInFinsbo() {
